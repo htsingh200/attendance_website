@@ -1,0 +1,33 @@
+body {
+    background-color: #D3D6DF;
+}
+
+.homeContainer {
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #00ADD7;
+    font-size: 20px;
+    color: #ffffff;
+}
