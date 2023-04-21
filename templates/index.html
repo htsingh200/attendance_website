@@ -8,7 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="./styles/login.css">
+    <!-- <link rel="stylesheet" href="./styles/login.css"> -->
+    <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/login.css') }}" >
 </head>
 
 <body>
@@ -16,7 +17,7 @@
         <div class="row loginContainer ">
             <div class="col-md col1 ">
                 <center>
-                    <img class="logo" src="./logo.svg" alt="logo">
+                    <img class="logo" src="/static/logo.svg" alt="logo">
                     <h5>Welcome To</h5>
                     <h5 style="color: #00ADD7;">Hope Foundation's</h5>
                     <h4>INTERNATIONAL INSTITUTE<br>
@@ -32,9 +33,9 @@
             </div>
             <div class="col-md col2 ">
                 <h2>Sign In as</h2>
-                <form>
-                    <input type="email" class="form-control inputBox " placeholder="Email" id="email">
-                    <input type="password" class="form-control inputBox " placeholder="Password" id="pwd">
+                <form action='{{url_for("login")}}' method="post" >
+                    <input type="email" class="form-control inputBox " placeholder="Email" id="email" name="fEmail" >
+                    <input type="password" class="form-control inputBox " placeholder="Password" id="pwd" name="fPassword" >
                     <center>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </center>

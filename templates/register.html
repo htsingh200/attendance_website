@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/register.css') }}">
+</head>
+
+<body>
+    <form class="formContainer" >
+        <center>
+            <h2 class="mt-4" >Register</h2>
+            <div class="row">
+                <div class="col-md col1 ">
+                    <div class="col1Container">
+                        <label for="prn" class="form-label">PRN</label>
+                        <input type="text" class="form-control ml-3 mb-5" id="name" name="prn" placeholder="Enter PRN">
+
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control ml-3 mb-5" id="name" name="name"
+                            placeholder="Enter Name">
+
+                        <label for="name" class="form-label">Branch</label>
+                        <!-- dropdown with 3 branches -->
+                        <select class="form-select ml-3 mb-5" aria-label="Default select example">
+                            <option selected>Select branch</option>
+                            <option value="1">Computer Science</option>
+                            <option value="2">Information Technology</option>
+                            <option value="3">E&TC</option>
+                        </select>
+
+                        <!-- take addmition year input -->
+                        <label for="name" class="form-label">Addmition Year</label>
+                        <input type="text" class="form-control ml-3 mb-5" id="name" name="name"
+                            placeholder="Enter admission year">
+
+                        <!-- select vaccination status options are fully vaccinated, not vaccinated -->
+                        <label for="name" class="form-label">Vaccination Status</label>
+                        <select class="form-select ml-3 mb-5" aria-label="Default select example">
+                            <option selected>Select status</option>
+                            <option value="1">Fully Vaccinated</option>
+                            <option value="2">Not Vaccinated</option>
+                        </select>
+
+                        <!-- select engineering year from FE,SE,TE,BE -->
+                        <label for="name" class="form-label">Engineering Year</label>
+                        <select class="form-select ml-3 mb-5" aria-label="Default select example">
+                            <option selected>Select year</option>
+                            <option value="1">FE</option>
+                            <option value="2">SE</option>
+                            <option value="3">TE</option>
+                            <option value="4">BE</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-md col2 ">
+                    <!-- display 3 fields one button to capture image, one button to upload image and one div to display captured or uploaded image -->
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="mb-5 d-flex flex-row ">
+                            <label for="uploadImage" class="form-label">Upload Image</label>
+                            <input class="form-control ml-3" type="file" id="uploadImage" accept="image/*">
+                        </div>
+                        <div class="col-md-4 mb-3 flex-row ">
+                            <!-- <canvas id="canvas"></canvas> -->
+                            <img class="uploadedImage" id="imagePreview" alt="Preview Image" />
+                        </div>
+                        <div class="mb-5 d-flex flex-row ">
+                            <label class="form-label">Capture Image</label>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary ml-3" data-toggle="modal"
+                                    data-target="#exampleModal" onclick="openCam()">
+                                    Open Camera
+                                </button>
+                                <!-- <button class="btn btn-primary ml-3" id="captureImage" onclick="openCam()">Capture</button> -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mb-4">Submit</button>
+        </center>
+
+    </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Capture Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <video id="videoCam"></video>
+                        <button id="captureImg" onclick="takePicture()">Capture</button>
+                    </center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const imageUpload = document.getElementById('uploadImage');
+        const imagePreview = document.getElementById('imagePreview');
+        const captureImage = document.getElementById('captureImg');
+        const video = document.getElementById('videoCam');
+
+        imageUpload.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function () {
+                    imagePreview.setAttribute('src', this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function openCam() {
+            let All_mediaDevices = navigator.mediaDevices
+            if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
+                console.log("getUserMedia() not supported.");
+                return;
+            }
+            All_mediaDevices.getUserMedia({
+                video: true
+            })
+                .then(function (vidStream) {
+
+                    window.localStream = vidStream;
+                    if ("srcObject" in video) {
+                        video.srcObject = vidStream;
+                    } else {
+                        video.src = window.URL.createObjectURL(vidStream);
+                    }
+                    video.onloadedmetadata = function (e) {
+                        video.play();
+                    };
+                })
+                .catch(function (e) {
+                    console.log(e.name + ": " + e.message);
+                });
+
+        }
+
+        function takePicture() {
+            const img = new Image();
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            imagePreview.src = canvas.toDataURL();
+            console.log(canvas.toDataURL());
+            closeCam();
+            $('#exampleModal').modal('hide');
+        }
+
+        function closeCam() {
+            localStream.getVideoTracks()[0].stop();
+            video.src = '';
+        }
+
+    </script>
+</body>
+
+</html>
